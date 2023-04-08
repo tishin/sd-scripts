@@ -1122,19 +1122,24 @@ def load_vae(vae_id, dtype):
 
 def make_bucket_resolutions(max_reso, min_size=256, max_size=1024, divisible=64):
     max_width, max_height = max_reso
+    print(f"make_bucket_resolutions {max_width}x{max_height}, {min_size}, {max_size}, {divisible}")
     max_area = (max_width // divisible) * (max_height // divisible)
+    print(f"max_area {max_area}")
 
     resos = set()
 
     size = int(math.sqrt(max_area)) * divisible
+    print(f"size {size}")
     resos.add((size, size))
 
     size = min_size
     while size <= max_size:
+        print(f"size {size}")
         width = size
         height = min(max_size, (max_area // (width // divisible)) * divisible)
         resos.add((width, height))
         resos.add((height, width))
+        print(f"reso {width}x{height}")
 
         # # make additional resos
         # if width >= height and width - divisible >= min_size:
